@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from product.models import Product, Lesson, UserProductAccess, LessonView
+from product.models import Product, Lesson, UserProductAccess
 
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -28,12 +28,6 @@ class LessonListSerializer(serializers.ModelSerializer):
         model = Lesson
         fields = ('id', 'title', 'desc', 'product', 'get_video_url', 'get_video_duration', 'status',
                   'last_viewed', 'view_time')
-
-
-class LessonDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserProductAccess
-        fields = ('id', 'product_id')
 
 
 class ProductListSerializer(serializers.ModelSerializer):
