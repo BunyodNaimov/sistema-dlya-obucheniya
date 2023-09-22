@@ -16,9 +16,7 @@ class UserProductAccessSerializer(serializers.ModelSerializer):
 
 
 class LessonListSerializer(serializers.ModelSerializer):
-    viewed_duration = serializers.SerializerMethodField()
     product = serializers.SerializerMethodField()
-    last_viewed = UserProductAccessSerializer(read_only=True)
 
     def get_product(self, lesson):
         product = lesson.product.first()
@@ -28,14 +26,8 @@ class LessonListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = ('id', 'title', 'desc', 'product', 'get_video_url', 'get_video_duration', 'viewed_duration', 'status',
+        fields = ('id', 'title', 'desc', 'product', 'get_video_url', 'get_video_duration', 'status',
                   'last_viewed')
-
-    def get_viewed_duration(self, lesson):
-        user = self.context['request'].user
-        lesson_views = LessonView.objects.filter(user=user, lesson=lesson)
-        total_duration = sum([view.lesson.duration.total_seconds() for view in lesson_views])
-        return total_duration
 
 
 class LessonDetailSerializer(serializers.ModelSerializer):

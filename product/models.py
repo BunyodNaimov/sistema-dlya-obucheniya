@@ -26,7 +26,9 @@ class Lesson(models.Model):
     duration = models.DurationField(null=True, blank=True)
     view_time = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=30, choices=ViewStatusType.choices, default=ViewStatusType.NOT_VIEWED)
+    last_viewed = models.DateTimeField(auto_now_add=True)
     product = models.ManyToManyField(Product, related_name='product_lesson')
+
 
     @property
     def get_video_url(self):  # noqa
@@ -57,7 +59,6 @@ class UserProductAccess(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='user_product_access')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_access')
     access_date = models.DateTimeField(auto_now_add=True)
-    last_viewed = models.DateTimeField(auto_now=True)
 
     class Meta:
         unique_together = ["user", "product"]
@@ -67,6 +68,7 @@ class LessonView(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     view_time = models.DateTimeField(auto_now_add=True)
+    last_viewed = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.lesson.title}"
