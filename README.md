@@ -40,3 +40,12 @@
 
 
 `POST /users/register` - это метод  используется для регистрации нового пользователя. Когда пользователь отправляет запрос на URL `/users/register/`, он должен предоставить свои данные, такие как имя, адрес электронной почты, пароль и т.д. В случае успешной регистрации сервер должен вернуть токен авторизации, который может использоваться для доступа к другим методам API, требующим аутентификации.
+
+
+![image](https://github.com/BunyodNaimov/sistema-dlya-obucheniya/assets/122611882/cb8d4354-ff2a-4eba-aaca-23c6f9427a03)
+
+
+
+![image](https://github.com/BunyodNaimov/sistema-dlya-obucheniya/assets/122611882/47769eef-9631-4817-be9f-273f6209a712)
+
+![image](https://github.com/BunyodNaimov/sistema-dlya-obucheniya/assets/122611882/949ff178-9bab-4a67-b4c3-93d8ad32ab53)
