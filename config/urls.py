@@ -7,12 +7,12 @@ from drf_yasg import openapi
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Minbar-uz by BunyodNaimov",
-        default_version='modul_8',
-        description="Minbar API",
+        title="система для обучения",
+        default_version='v1',
+        description="API",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="naimov.bunyod2021@gmail.com"),
-        license=openapi.License(name="PDP License"),
+        license=openapi.License(name="License"),
     ),
     public=True,
     permission_classes=[permissions.AllowAny],
