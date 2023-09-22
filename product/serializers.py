@@ -3,18 +3,33 @@ from rest_framework import serializers
 from product.models import Product, Lesson, UserProductAccess, LessonView
 
 
-class ProductListSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('id', 'name', 'price', 'author')
+        fields = '__all__'
+
+
+class UserProductAccessSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProductAccess
+        fields = ['user', 'product', 'access_date', 'last_viewed']
 
 
 class LessonListSerializer(serializers.ModelSerializer):
     viewed_duration = serializers.SerializerMethodField()
+    product = serializers.SerializerMethodField()
+    last_viewed = UserProductAccessSerializer(read_only=True)
+
+    def get_product(self, lesson):
+        product = lesson.product.first()
+        if product:
+            return ProductSerializer(product).data
+        return None
 
     class Meta:
         model = Lesson
-        fields = ('id', 'title', 'desc', 'product', 'get_video_url', 'get_video_duration', 'viewed_duration', 'status')
+        fields = ('id', 'title', 'desc', 'product', 'get_video_url', 'get_video_duration', 'viewed_duration', 'status',
+                  'last_viewed')
 
     def get_viewed_duration(self, lesson):
         user = self.context['request'].user
@@ -29,9 +44,24 @@ class LessonDetailSerializer(serializers.ModelSerializer):
         fields = ('id', 'product_id')
 
 
-class ProductSerializer(serializers.ModelSerializer):
-    product = ProductListSerializer(read_only=True)
+class ProductListSerializer(serializers.ModelSerializer):
+    lessons = LessonListSerializer(read_only=True, many=True)
 
     class Meta:
+        model = Product
+        fields = ('id', 'name', 'price', 'author', 'lessons')
+
+
+class UserProductAccessAPIViewSerializer(serializers.ModelSerializer):
+    class Meta:
         model = UserProductAccess
-        fields = ('id', 'product')
+        fields = ('id', 'product_id')
+
+
+class ProductStatsSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    name = serializers.CharField()
+    total_lessons_viewed = serializers.IntegerField()
+    total_view_duration = serializers.DurationField()
+    total_students = serializers.IntegerField()
+    percent_purchased = serializers.FloatField()

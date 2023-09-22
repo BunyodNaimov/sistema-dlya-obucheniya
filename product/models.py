@@ -18,6 +18,7 @@ class Lesson(models.Model):
     class ViewStatusType(models.TextChoices):
         VIEWED = "Просмотрено"
         NOT_VIEWED = "Не просмотрено"
+        IN_PROGRESS = "В прогрессе"
 
     title = models.CharField(max_length=255)
     video = models.FileField(upload_to="lesson/", validators=[validate_video], null=True, blank=True)

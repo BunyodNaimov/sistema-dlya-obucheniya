@@ -1,13 +1,13 @@
 from django.urls import path
 
-from product.views import ProductListAPIView, LessonListAPIView, UserProductAccessAPIView, GetProductAPIView, \
-    ProductDetailAPIView
+from product.views import ProductListAPIView, LessonListAPIView, UserProductAccessAPIView, \
+    ProductLessonListAPIView, ProductStatsAPIView
 
 urlpatterns = [
     path('', ProductListAPIView.as_view(), name='product-list'),
-    path('add_access/<int:product_id>/', UserProductAccessAPIView.as_view(), name='add_access'),
-    path('<int:product_id>/lessons/', ProductDetailAPIView.as_view(), name='lessons'),
+    path('<int:product_id>/lessons/', ProductLessonListAPIView.as_view(), name='product-lessons_list'),
     path('lesson_list/', LessonListAPIView.as_view(), name='lesson_list'),
-    # path('<int:product_id>/<int:lesson_id>/lesson/', LessonDetailView.as_view(), name='lesson_detail'),
+    path('<int:product_id>/add_access/', UserProductAccessAPIView.as_view(), name='add_access'),
+    path('stats', ProductStatsAPIView.as_view(), name='product-stats')
 
 ]
